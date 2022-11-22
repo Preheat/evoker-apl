@@ -18,40 +18,31 @@ actions.precombat+=/living_flame,if=!talent.firestorm
 actions+=potion,if=buff.dragonrage.up|fight_remains<35
 actions+=/call_action_list,name=trinkets
 actions+=/run_action_list,name=aoe,if=spell_targets.pyre>=3
-actions+=/run_action_list,name=dr,if=buff.dragonrage.up
 actions+=/run_action_list,name=st
 
 #single target
-actions.st=dragonrage,if=cooldown.fire_breath.remains<gcd.max&cooldown.eternity_surge.remains<2*gcd.max|fight_remains<30
-actions.st+=/call_action_list,name=fb,if=!talent.dragonrage|cooldown.dragonrage.remains>10
-actions.st+=/call_action_list,name=es,if=!talent.dragonrage|cooldown.dragonrage.remains>15
-actions.st+=/shattering_star
+actions.st+=/dragonrage,if=cooldown.fire_breath.remains<gcd.max&cooldown.eternity_surge.remains<2*gcd.max|fight_remains<30
+actions.st+=/tip_the_scales,if=buff.dragonrage.up&!cooldown.fire_breath.up
+actions.st+=/call_action_list,name=fb,if=!talent.dragonrage|cooldown.dragonrage.remains>10|buff.dragonrage.up
+actions.st+=/call_action_list,name=es,if=!talent.dragonrage|cooldown.dragonrage.remains>15|buff.dragonrage.up
+actions.st+=/living_flame,if=buff.dragonrage.up&buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max&buff.burnout.up
+actions.st+=/azure_strike,if=buff.dragonrage.up&buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max
+actions.st+=/shattering_star,if=!buff.dragonrage.up|essence%3+buff.essence_burst.stack>=2+0.5*talent.feed_the_flames|buff.bloodlust.down
 actions.st+=/pyre,if=(talent.volatility|!talent.eternitys_span|!talent.scintillation)&buff.charged_blast.stack==20&spell_targets.pyre>1
-actions.st+=/firestorm,if=dot.fire_breath_damage.remains>3&debuff.shattering_star_debuff.down
-actions.st+=/living_flame,if=buff.burnout.stack==buff.burnout.max_stack&buff.essence_burst.stack<buff.essence_burst.max_stack
-actions.st+=/disintegrate,chain=1,if=!talent.shattering_star|cooldown.shattering_star.remains>6|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack
-actions.st+=/deep_breath,if=spell_targets.deep_breath>1
-actions.st+=/use_item,name=kharnalex_the_first_light,if=debuff.shattering_star_debuff.down
+actions.st+=/firestorm,if=!buff.dragonrage.up&dot.fire_breath_damage.remains>3&debuff.shattering_star_debuff.down|buff.snapfire.up
+actions.st+=/living_flame,if=!buff.dragonrage.up&buff.burnout.stack==buff.burnout.max_stack
+actions.st+=/living_flame,if=buff.dragonrage.up&(buff.burnout.up|talent.ruby_embers&dot.living_flame_damage.remains<4&!prev_gcd.1.living_flame)&buff.essence_burst.stack<buff.essence_burst.max_stack&essence<essence.max-1
+actions.st+=/azure_strike,if=buff.dragonrage.up&essence<3&!buff.essence_burst.up
+actions.st+=/disintegrate,chain=1,if=!buff.dragonrage.up&(!talent.shattering_star|cooldown.shattering_star.remains>6|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack)
+actions.st+=/disintegrate,chain=1,interrupt_if=ticks>=2,interrupt_immediate=1,if=buff.dragonrage.up&(!talent.shattering_star|cooldown.shattering_star.remains>(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack)
+actions.st+=/azure_strike,if=buff.dragonrage.up
+actions.st+=/deep_breath,if=!buff.dragonrage.up&spell_targets.deep_breath>1
+actions.st+=/use_item,name=kharnalex_the_first_light,if=!buff.dragonrage.up&debuff.shattering_star_debuff.down
 actions.st+=/living_flame
-
-#dragonrage (single target)
-actions.dr=tip_the_scales,if=!cooldown.fire_breath.up
-actions.dr+=/call_action_list,name=fb
-actions.dr+=/call_action_list,name=es
-actions.dr+=/living_flame,if=buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max&buff.burnout.up
-actions.dr+=/azure_strike,if=buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max
-actions.dr+=/shattering_star,if=essence%3+buff.essence_burst.stack>=2+0.5*talent.feed_the_flames|buff.bloodlust.down
-actions.dr+=/pyre,if=spell_targets.pyre>1&talent.volatility&buff.charged_blast.stack>16
-actions.dr+=/firestorm,if=buff.snapfire.up
-actions.dr+=/living_flame,if=(buff.burnout.up|talent.ruby_embers&dot.living_flame_damage.remains<4&!prev_gcd.1.living_flame)&buff.essence_burst.stack<buff.essence_burst.max_stack&essence<essence.max-1
-actions.dr+=/azure_strike,if=essence<3&!buff.essence_burst.up
-actions.dr+=/disintegrate,chain=1,interrupt_if=ticks>=2,interrupt_immediate=1,if=!talent.shattering_star|cooldown.shattering_star.remains>(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack
-actions.dr+=/azure_strike
 
 #aoe
 actions.aoe+=/dragonrage,if=cooldown.fire_breath.remains<=gcd.max&cooldown.eternity_surge.remains<3*gcd.max
-actions.aoe+=/tip_the_scales,if=buff.dragonrage.up&spell_targets.pyre<=6
-actions.aoe+=/tip_the_scales,if=!cooldown.fire_breath.up&buff.dragonrage.up
+actions.aoe+=/tip_the_scales,if=buff.dragonrage.up&(spell_targets.pyre<=6|!cooldown.fire_breath.up)
 actions.aoe+=/call_action_list,name=fb,if=buff.dragonrage.up|!talent.dragonrage|cooldown.dragonrage.remains>10&talent.everburning_flame
 actions.aoe+=/fire_breath,empower_to=1,if=cooldown.dragonrage.remains>10&spell_targets.pyre>=7
 actions.aoe+=/fire_breath,empower_to=2,if=cooldown.dragonrage.remains>10&spell_targets.pyre>=6
