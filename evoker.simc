@@ -22,10 +22,12 @@ actions+=/run_action_list,name=st
 
 #single target
 actions.st+=/dragonrage,if=cooldown.fire_breath.remains<gcd.max&cooldown.eternity_surge.remains<2*gcd.max|fight_remains<30
-actions.st+=/tip_the_scales,if=buff.dragonrage.up&(buff.dragonrage.remains<1.3*gcd.max&(buff.dragonrage.remains>cooldown.fire_breath.remains|buff.dragonrage.remains>cooldown.eternity_surge.remains)|talent.feed_the_flames&!cooldown.fire_breath.up)
+actions.st+=/tip_the_scales,if=buff.dragonrage.up&(buff.dragonrage.remains<0.87*gcd.max&(buff.dragonrage.remains>cooldown.fire_breath.remains|buff.dragonrage.remains>cooldown.eternity_surge.remains)|talent.feed_the_flames&!cooldown.fire_breath.up)
 actions.st+=/fire_breath,empower_to=1,if=buff.dragonrage.up
 actions.st+=/call_action_list,name=fb,if=!talent.dragonrage|cooldown.dragonrage.remains>10|buff.dragonrage.up
 actions.st+=/call_action_list,name=es,if=!talent.dragonrage|cooldown.dragonrage.remains>15|buff.dragonrage.up
+actions.st+=/wait,sec=cooldown.fire_breath.remains,if=buff.dragonrage.up&buff.dragonrage.remains<(1+0.87*buff.tip_the_scales.down)*gcd.max&buff.dragonrage.remains-cooldown.fire_breath.remains>=0.87*buff.tip_the_scales.down*gcd.max
+actions.st+=/wait,sec=cooldown.eternity_surge.remains,if=buff.dragonrage.up&buff.dragonrage.remains<(1+0.87*buff.tip_the_scales.down)*gcd.max&buff.dragonrage.remains-cooldown.eternity_surge.remains>=0.87*buff.tip_the_scales.down*gcd.max
 actions.st+=/living_flame,if=buff.dragonrage.up&buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max&buff.burnout.up
 actions.st+=/azure_strike,if=buff.dragonrage.up&buff.dragonrage.remains<(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max
 actions.st+=/shattering_star,if=!buff.dragonrage.up|buff.essence_burst.stack==buff.essence_burst.max_stack|talent.eye_of_infinity
