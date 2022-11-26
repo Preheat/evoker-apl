@@ -37,7 +37,7 @@ actions.st+=/living_flame,if=!buff.dragonrage.up&buff.burnout.stack==buff.burnou
 actions.st+=/living_flame,if=buff.dragonrage.up&(buff.burnout.up|talent.ruby_embers&dot.living_flame_damage.remains<4&!prev_gcd.1.living_flame)&buff.essence_burst.stack<buff.essence_burst.max_stack&essence<essence.max-1
 actions.st+=/azure_strike,if=buff.dragonrage.up&essence<3&!buff.essence_burst.up
 actions.st+=/disintegrate,chain=1,if=!buff.dragonrage.up&(!talent.shattering_star|cooldown.shattering_star.remains>6|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack)
-actions.st+=/disintegrate,chain=1,interrupt_if=ticks>=2,interrupt_immediate=1,if=buff.dragonrage.up&(!talent.shattering_star|cooldown.shattering_star.remains>(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack)
+actions.st+=/disintegrate,chain=1,interrupt_if=gcd.remains==0&(talent.feed_the_flames|talent.causality),interrupt_immediate=1,if=buff.dragonrage.up&(!talent.shattering_star|cooldown.shattering_star.remains>(buff.essence_burst.max_stack-buff.essence_burst.stack)*gcd.max|essence>essence.max-1|buff.essence_burst.stack==buff.essence_burst.max_stack)
 actions.st+=/azure_strike,if=buff.dragonrage.up
 actions.st+=/deep_breath,if=!buff.dragonrage.up&spell_targets.deep_breath>1
 actions.st+=/use_item,name=kharnalex_the_first_light,if=!buff.dragonrage.up&debuff.shattering_star_debuff.down
